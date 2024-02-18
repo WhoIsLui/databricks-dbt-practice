@@ -10,23 +10,21 @@ trigger:
 
 pool:
   vmImage: "ubuntu-latest"
-strategy:
-  matrix:
-    Python39:
-      python.version: '3.9'
-
 
 jobs:
-  displayName: 'dbt-pipeline'
+- job: InstallAndTest
+  displayName: 'Install and Test'
   steps:
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: '$(python.version)'
-    displayName: 'Use Python $(python.version)'
+      versionSpec: '3.9'
+    displayName: 'Use Python 3.9'
+  
   - script: |
       python -m pip install --upgrade pip
       pip install dbt-databricks
     displayName: 'Install dependencies'
+  
   - script: |
       dbt test
     displayName: 'Run dbt test'
